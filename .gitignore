@@ -9,6 +9,9 @@
 crash.log
 crash.*.log
 
+# lock file
+.terraform.lock.hcl
+
 # Terraform variable files (often contain secrets)
 *.tfvars
 *.tfvars.json
