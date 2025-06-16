@@ -1,10 +1,23 @@
+variable "organization" {
+  description = "HCP Terraform organization name"
+  type        = string
+  default     = "grinwis-com"
+}
+
+variable "project" {
+  description = "HCP Terraform project name"
+  type        = string
+  default     = "mendix"
+}
+
+
 variable "security_config_name" {
   description = "Name of the security configuration to be used"
   type        = string
   default     = "jgrinwis-sc"
 }
 
-# below some required input vars
+# group name used to loookup contract and group ID etc.
 variable "group_name" {
   description = "Akamai group to use this resource in"
   type        = string
@@ -14,7 +27,7 @@ variable "group_name" {
 # our var that defines policy to hostname lists mapping
 # added some validation to ensure that the right keys are present and that all hostnames are unique across the lists
 variable "policy_to_hostnames_map" {
-  description = "Attach hostnames to certain security policies. This is a map of lists, where each list contains hostnames that are assigned to a specific security policy."
+  description = "Attach hostnames to certain security policies. This is a map of lists, where each list contains hostnames that are assigned to a specific security policy. You can update the default in case it's managed outside of Terraform."
   type        = map(list(string))
   default = {
     low    = ["ew.grinwis.com"]
@@ -39,7 +52,7 @@ variable "policy_to_hostnames_map" {
 
 # a list of hostnames not managed by Terraform, but part of the security configuration
 variable "non_tf_managed_hosts" {
-  description = "List of hostnames that are not managed by Terraform, but are part of the security configuration."
+  description = "List of hostnames that are part of the security config but not assigned to a TF managed security policy."
   type        = list(string)
   default     = ["ew.grinwis.com"]
   validation {
