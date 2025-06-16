@@ -19,7 +19,6 @@ data "tfe_outputs" "all" {
   workspace    = each.key
 }
 
-
 locals {
   # we want to create a map of security policies and hostnames
   # property_name is the key and it has a list of hostnames and a property level security policy with a default of "low".
@@ -96,6 +95,9 @@ resource "akamai_appsec_configuration" "appsec_config" {
   # but be aware, hostname should be active, otherwise you will get an input error. 
   host_names = distinct(concat(var.non_tf_managed_hosts, (flatten(values(local.merged_policy_to_hostnames_map)))))
 }
+
+# now creating our match targets. We can't use an import of an existing one in the FC code as we're using a count and looks like import can't deal with that.
+# so these match targets are created by Terraform! If you delete them later, TF will complain about missing resources.
 
 # create a new match target but if number of hosts is 0, delete it otherwise it will become a catch all
 # we're going to create three match targets, low, medium, high
