@@ -1,8 +1,18 @@
-provider "akamai" {
+/* provider "akamai" {
   edgerc         = "~/.edgerc"
   config_section = "gss-demo"
-}
+} */
 
+terraform {
+  cloud {
+
+    organization = "grinwis-com"
+
+    workspaces {
+      name = "set-security"
+    }
+  }
+}
 # lookup our terraform cloud project by name created in our tf cloud org
 # we need to lookup workspaces on project level as we can't assign labels when creating a workspace via no-code module.
 # data should contain workspace_ids and a workspace_names lists.
